@@ -1,0 +1,50 @@
+.fa-smile-o {
+  color: green;
+}
+
+.ngb-tp-input {
+  padding: 1px;
+  background: blue;
+}
+
+.myDayContainer {
+  border: 1px solid lightgrey;
+  background: ghostwhite;
+  border-radius: 5px;
+  margin: 0 10px 10px 10px;
+  padding: 10px;
+}
+
+.mySubHeading {
+  display: inline;
+  margin-right: 10px;
+}
+
+.myBtn {
+  margin: 10px;
+}
+
+.myTooltip {
+  font-size: 18px;
+  color: grey;
+  margin-left: 10px;
+}
+
+.myX {
+  font-size: xx-large;
+}
+
+.myCheckbox {
+  width: 20px;
+  height: 20px;
+}
+
+.form-group.col-md-5 {
+  display: flex;
+  align-items: center;
+}
+
+.form-group.col-md-5 {
+  display: flex;
+  align-items: center;
+}

@@ -1,0 +1,127 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col">
+      <h2>{{results.length > 1 ? 'Results' : 'Result'}}
+        <small>
+          <span class="myTooltip" tooltip="Looks for day(s) with most votes, first, then for locations."
+                placement="right"
+                show-delay="300"><i
+            class="fa fa-info-circle" aria-hidden="true"></i></span>
+        </small>
+      </h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="text-center" *ngIf="results.length > 0, else noResults">
+        <div *ngFor="let result of results">
+          <h3>
+            <strong>{{result.day}}</strong>
+          </h3>
+          <h4 *ngFor="let vote of result.votes">
+            {{vote.location}}, {{("0" + vote.hour).slice(-2)}}.{{("0" + vote.minute).slice(-2)}}h
+          </h4>
+        </div>
+      </div>
+      <ng-template #noResults>
+        <div class="text-center">
+          <h4>No results, yet.</h4>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col">
+      <h2>Availability</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div style="display: block;">
+        <canvas baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+                [plugins]="pieChartPlugins"
+                [legend]="pieChartLegend">
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col">
+      <h2>Location/Day</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div style="display: block;">
+        <canvas baseChart
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [plugins]="barChartPlugins"
+                [legend]="barChartLegend"
+                [chartType]="barChartType">
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col">
+      <h2>Details</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped table-bordered">
+          <thead class="thead-dark">
+          <tr>
+            <th>Name</th>
+            <th>Voted</th>
+            <th>Available</th>
+            <th>Votes</th>
+            <th>Preferred</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{user.name}}</td>
+            <td>{{user.voted}}</td>
+            <td>{{user.available}}</td>
+            <td>
+              <div *ngFor="let vote of user.votes">
+                {{vote.location}}: {{ vote.date | date :'EEEE' | slice:0:3}},
+                {{("0" + vote.date.getHours()).slice(-2)}}.{{("0" + vote.date.getMinutes()).slice(-2)}}h
+              </div>
+            </td>
+            <td>
+              <div *ngFor="let vote of user.votes">
+                <div *ngIf="vote.weight === weightMore">
+                  {{ vote.date | date :'EEEE'}}
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col">
+      <h2>Login</h2>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="loading">
+    <div class="col">
+      <div class="text-center">
+        <app-spinner></app-spinner>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="error">
+    <div class="col-md-10 alert alert-danger">
+      <p>Login failed.</p>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="logout && !form.touched">
+    <div class="col-md-10 alert alert-success">
+      <p>Logged out successfully.</p>
+    </div>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" #form="ngForm" *ngIf="!loading">
+
+    <div class="row">
+      <div class="col-md-5">
+        <div class="form-group">
+          <label for="user">Name </label>
+          <select id="user" class="form-control" name="user" ngModel required>
+            <option value="" disabled selected>Select ...</option>
+            <option *ngFor="let user of users" [value]="user">{{user}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-5">
+        <div class="form-group">
+          <label for="password">Password </label>
+          <input id="password" class="form-control" type="password" name="password" ngModel required>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-success" [disabled]="!form.valid">Submit</button>
+  </form>
+</div>

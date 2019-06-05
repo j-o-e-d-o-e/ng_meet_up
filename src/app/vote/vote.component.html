@@ -1,0 +1,90 @@
+<div class="container">
+
+  <!--TODO: CanDeactiveGuard for alert "data will be lost" -->
+  <!--<div class="col-xs-10 alert alert-danger" *ngIf="user.voted && form.dirty">-->
+  <!--<p>Submit to update vote.</p>-->
+  <!--</div>-->
+
+  <div class="row">
+    <h2>{{user.name}}</h2>
+  </div>
+
+  <div class="row" *ngIf="user.voted">
+    <div class="col-md-10 alert alert-success">
+      <p>Already voted.</p>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="dates.length === 0">
+    <div class="col-md-10 alert alert-danger">
+      <p>Nothing to vote for now, next week ...</p>
+    </div>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" #form="ngForm">
+
+    <div class="row">
+      <div class="form-group">
+        <div class="col">
+          <label class="radio-inline">
+            <!--name-attr makes radios mutually exclusive, [value] refers to boolean value of user.available -->
+            <input type="radio" name="userA" [value]="true" [ngModel]="available" (click)="onAvailable()">
+            <span> I'm in! <i class="fa fa-smile-o" aria-hidden="true"></i></span>
+          </label>
+        </div>
+      </div>
+      <div class="col">
+        <label class="radio-inline">
+          <input type="radio" name="userA" [value]="false" [(ngModel)]="available"> I'm out ...
+        </label>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="available">
+      <div class="col-md-5 myDayContainer" *ngFor="let vote of votes; let i=index">
+        <button type="button" class="close myX" (click)="onRemove(i)" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+          <h3>{{ vote.date | date :'EEEE' | slice:0:3}}, {{vote.date | date:'dd'}}.{{vote.date | date:'MM'}}.</h3>
+        <!--suppress AngularInvalidExpressionResultType -->
+        <div [ngModelGroup]="i">
+          <div class="form-group col-md-5">
+            <label for="time" class="mr-2 col-form-label-sm">When?</label>
+            <ngb-timepicker id="time" name="usrT" [minuteStep]="30" [seconds]="false"
+                            [(ngModel)]="vote.time"></ngb-timepicker>
+          </div>
+          <div class="form-group col-md-5">
+            <label for="location" class="mr-2 col-form-label-sm">Where?</label>
+            <select id="location" class="form-control form-control-sm" name="usrL" [(ngModel)]="vote.location">
+              <option *ngFor="let location of locations" [value]="location">{{location}}</option>
+            </select>
+            <span class="myTooltip">
+                  <span tooltip="Other: tbd. in group chat." placement="right" show-delay="300"><i
+                    class="fa fa-info-circle"
+                    aria-hidden="true"></i></span>
+                </span>
+          </div>
+        </div>
+        <div class="from-group col-md-5">
+          <label for="preferred" class="mr-2 col-form-label-sm">Preferred?</label>
+          <input id="preferred" class="myCheckbox form-control-sm" type="checkbox" name="usrP"
+                 [disabled]="votes.length < 2"
+                 [checked]="vote.weight === weightMore"
+                 (click)="onPreferred(i, $event)">
+          <span class="myTooltip" tooltip="Preferred day is weighed by 1.5, second day by 0.5." placement="right"
+                show-delay="300"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <button type="submit" class="btn btn-primary myBtn" [disabled]="available && votes.length === 0">
+          Submit
+        </button>
+        <button type="button" class="btn btn-danger myBtn" (click)="onReset()">Reset</button>
+      </div>
+    </div>
+
+  </form>
+</div>
