@@ -1,8 +1,8 @@
-# MeetUp
+# Meet Up
+
+Users can sign in and vote where and when they would like to meet with the group of users (template-driven form). The results are displayed and stored in a firebase-db. Votes are reset weekly.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
-
-Users can sign in and vote where and when they would like to meet with the group of users. The results are displayed and stored in a firebase-db. Votes are reset weekly.
 
 ![vote](https://user-images.githubusercontent.com/26798159/58921793-8b824700-8738-11e9-8125-9b2a23091e40.png)
 
