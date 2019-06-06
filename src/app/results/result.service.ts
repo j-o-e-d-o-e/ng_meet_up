@@ -48,7 +48,7 @@ export class ResultService {
     }
     const avg = sum / count;
     const finalHour = Math.floor(avg / 60);
-    return {hour: finalHour === 24 ? 0 : finalHour, minute: avg % 60};
+    return {hour: finalHour === 24 ? 0 : finalHour, minute: Math.round(avg % 60)};
   }
 
   set votes(votes: Vote[]) {
