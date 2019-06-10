@@ -25,9 +25,12 @@ export class UserService {
     };
   }
 
-  fetchData() {
-    this.resetUsersWeekly();
-    this.fetchUsers();
+  fetchUsers() {
+    this.data.fetch().subscribe((users: User[]) => {
+      this.users = users.sort(UserService.compare());
+      this.resetUsersWeekly();
+      this.usersChanged.next(this.users);
+    });
   }
 
   private resetUsersWeekly() {
@@ -36,21 +39,13 @@ export class UserService {
       const last = new Date(value);
       if (current.getDay() < last.getDay()) {
         for (const user of this.users) {
-          user.available = undefined;
+          user.available = null;
           user.voted = false;
           user.votes = [];
         }
         this.data.saveAll(this.users);
-        this.usersChanged.next(this.users);
       }
       this.data.saveLastAccess();
-    });
-  }
-
-  private fetchUsers() {
-    this.data.fetch().subscribe((users: User[]) => {
-      this.users = users.sort(UserService.compare());
-      this.usersChanged.next(this.users);
     });
   }
 

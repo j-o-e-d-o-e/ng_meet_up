@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   fetchData() {
     this.afAuth.auth.signInWithEmailAndPassword(environment.admin.email, environment.admin.password)
       .then(() => {
-        this.userService.fetchData();
+        this.userService.fetchUsers();
       })
       .catch(error => {
         throw new Error(error);
